@@ -1,9 +1,16 @@
 package controllers
 
 import (
+    "time"
+
+    "github.com/Sai628/beego-sample-shorturl/models"
+
     "github.com/astaxie/beego"
     "github.com/astaxie/beego/cache"
-    "github.com/Sai628/beego-sample-shorturl/models"
+)
+
+const (
+    EXPIRE_TIME = time.Hour * 24 * 365
 )
 
 var (
@@ -36,11 +43,11 @@ func (c *ShortController) Get() {
     } else {
         result.UrlShort = models.Generate()
         beego.Info("not exist, generate a new short url:", result.UrlShort)
-        err := urlcache.Put(urlmd5, result.UrlShort, 9999999)
+        err := urlcache.Put(urlmd5, result.UrlShort, EXPIRE_TIME)
         if err != nil {
             beego.Info(err)
         }
-        err = urlcache.Put(result.UrlShort, longurl, 9999999)
+        err = urlcache.Put(result.UrlShort, longurl, EXPIRE_TIME)
         if err != nil {
             beego.Info(err)
         }
