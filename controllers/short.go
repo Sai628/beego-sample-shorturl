@@ -34,7 +34,7 @@ func (c *ShortController) Get() {
     var result ShortResult
     longurl := c.Input().Get("longurl")
     result.UrlLong = longurl
-    
+
     urlmd5 := models.GetMD5(longurl)
     beego.Info(urlmd5)
     if urlcache.IsExist(urlmd5) {
